@@ -1,73 +1,240 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* styles/globals.css
+   Dreamy gradient + blurred blobs + page transitions + soft button styles
+*/
 
-/* 1. Animation for the flowing gradient background */
-@keyframes gradient-animation {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+/* ------------ theme variables ------------ */
+:root{
+  --bg-blur: 68px;
+  --blob-opacity: 0.62;
+  --accent-1: #ffd1ea; /* pastel pink */
+  --accent-2: #d6b3ff; /* pastel purple */
+  --accent-3: #ffe8f8; /* light rose */
+  --page-fade-duration: 640ms;
 }
 
-/* 2. Animation for the floating blobs */
-@keyframes blob-animation {
-  0% { transform: translate(0px, 0px) scale(1); }
-  33% { transform: translate(30px, -50px) scale(1.1); }
-  66% { transform: translate(-20px, 20px) scale(0.9); }
-  100% { transform: translate(0px, 0px) scale(1); }
+/* Keep app layout stable */
+html, body, #__next {
+  height: 100%;
 }
-
-/* 3. Animation for the smooth page fade-in transition */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(15px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Base styles applied to the entire site */
-html,
 body {
-  padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-  
-  /* Applying the animated gradient */
-  background: linear-gradient(-45deg, #fbc2eb, #a6c1ee, #e0c3fc, #8ec5fc);
-  background-size: 400% 400%;
-  animation: gradient-animation 20s ease infinite;
-}
-
-a {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background: #fff;
   color: inherit;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ---------- Animated background (fixed, behind content) ---------- */
+.animated-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* Soft multi-stop gradient that slowly shifts */
+.gradient-overlay {
+  position: absolute;
+  inset: -25%;
+  background: linear-gradient(120deg, var(--accent-1) 0%, #f7d7f0 18%, var(--accent-2) 44%, var(--accent-3) 100%);
+  background-size: 400% 400%;
+  filter: blur(28px) saturate(1.05);
+  transform: scale(1.02);
+  opacity: 0.95;
+  animation: gradientShift 32s ease-in-out infinite;
+  mix-blend-mode: color-dodge;
+}
+
+/* Blobs: blurred radial gradients */
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(var(--bg-blur)) saturate(1.05);
+  mix-blend-mode: screen;
+  opacity: var(--blob-opacity);
+  transform-origin: center;
+}
+
+/* Blob variants (positions, sizes, colors) */
+.blob-1 {
+  width: 600px;
+  height: 600px;
+  left: -8%;
+  top: -10%;
+  background: radial-gradient(circle at 30% 30%, rgba(255,182,193,0.95), rgba(255,182,193,0.18) 42%, transparent 70%);
+  animation: move1 30s ease-in-out infinite;
+}
+.blob-2 {
+  width: 480px;
+  height: 480px;
+  right: -10%;
+  top: 6%;
+  background: radial-gradient(circle at 60% 30%, rgba(214,179,255,0.92), rgba(214,179,255,0.2) 44%, transparent 72%);
+  animation: move2 34s ease-in-out infinite;
+}
+.blob-3 {
+  width: 420px;
+  height: 420px;
+  left: 12%;
+  bottom: -14%;
+  background: radial-gradient(circle at 40% 60%, rgba(255,223,244,0.95), rgba(255,223,244,0.18) 44%, transparent 72%);
+  animation: move3 36s ease-in-out infinite;
+}
+.blob-4 {
+  width: 320px;
+  height: 320px;
+  right: 26%;
+  bottom: -6%;
+  background: radial-gradient(circle at 60% 60%, rgba(255,196,230,0.9), rgba(199,21,133,0.16) 46%, transparent 75%);
+  animation: move4 28s ease-in-out infinite;
+}
+
+/* Gradient shift keyframes */
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; filter: blur(26px) saturate(1); }
+  33% { background-position: 50% 30%; filter: blur(30px) saturate(1.06); }
+  66% { background-position: 100% 60%; filter: blur(26px) saturate(1.08); }
+  100% { background-position: 0% 50%; filter: blur(26px) saturate(1); }
+}
+
+/* Blob movement keyframes (slow and looped) */
+@keyframes move1 {
+  0%   { transform: translate(0,0) scale(1) rotate(0deg); }
+  25%  { transform: translate(48px, -32px) scale(1.04) rotate(6deg); }
+  50%  { transform: translate(0, -86px) scale(1) rotate(0deg); }
+  75%  { transform: translate(-36px, -18px) scale(0.98) rotate(-6deg); }
+  100% { transform: translate(0,0) scale(1) rotate(0deg); }
+}
+@keyframes move2 {
+  0%   { transform: translate(0,0) scale(1) rotate(0deg); }
+  25%  { transform: translate(-30px, 30px) scale(1.02) rotate(-4deg); }
+  50%  { transform: translate(16px, 66px) scale(1) rotate(2deg); }
+  75%  { transform: translate(36px, 10px) scale(0.98) rotate(3deg); }
+  100% { transform: translate(0,0) scale(1) rotate(0deg); }
+}
+@keyframes move3 {
+  0%   { transform: translate(0,0) scale(1) rotate(0deg); }
+  33%  { transform: translate(18px, -44px) scale(1.03) rotate(6deg); }
+  66%  { transform: translate(-28px, -22px) scale(1) rotate(-3deg); }
+  100% { transform: translate(0,0) scale(1) rotate(0deg); }
+}
+@keyframes move4 {
+  0%   { transform: translate(0,0) scale(1) rotate(0deg); }
+  25%  { transform: translate(8px, 40px) scale(1.02) rotate(3deg); }
+  50%  { transform: translate(-16px, -30px) scale(1) rotate(-4deg); }
+  100% { transform: translate(0,0) scale(1) rotate(0deg); }
+}
+
+/* Ensure app content is above background */
+.app-content {
+  position: relative;
+  z-index: 1;
+}
+
+/* Page transition: fade + slight upward slide on mount */
+.page-wrapper {
+  will-change: opacity, transform;
+  animation: pageFadeSlide var(--page-fade-duration) cubic-bezier(.2,.85,.32,1) both;
+}
+@keyframes pageFadeSlide {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ===================== Button styling: soft, rounded, non-rectangular ===================== */
+/* Apply to general button and <a> elements styled as buttons.
+   To opt in a particular button, add class="cute-btn" or update your existing button markup.
+*/
+.cute-btn,
+button,
+button[type="button"],
+a.cute-btn,
+a.button-like {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px 22px;
+  border-radius: 999px; /* pill / capsule */
+  border: 1px solid rgba(255,255,255,0.18);
+  background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+  backdrop-filter: blur(6px) saturate(1.03);
+  box-shadow: 0 6px 20px rgba(189, 83, 140, 0.12), inset 0 -1px 0 rgba(255,255,255,0.02);
+  color: #111;
+  cursor: pointer;
   text-decoration: none;
+  transition: transform 180ms ease, box-shadow 160ms ease;
+  font-weight: 600;
+  -webkit-tap-highlight-color: transparent;
+  border: none;
 }
 
-* {
+/* Soft hover/press states */
+.cute-btn:hover,
+button:hover,
+a.cute-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(189,83,140,0.14);
+}
+.cute-btn:active,
+button:active,
+a.cute-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 6px 18px rgba(189,83,140,0.08);
+  opacity: 0.98;
+}
+
+/* If you need an outlined variant */
+.cute-btn.outline {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.12);
+  color: #fff;
+}
+
+/* ===================== Homepage hero centering helper ===================== */
+/* Use this on the homepage wrapper that contains the "I Missed You Bubu" title */
+.hero-center {
+  min-height: calc(100vh - 0px); /* full viewport height */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  gap: 18px;
+  padding: 28px;
   box-sizing: border-box;
+  z-index: 2; /* above background */
 }
 
-/* Utility class to trigger the page transition animation */
-.page-transition {
-  animation: fadeIn 0.5s ease-out forwards;
+/* Title style — preserve your existing font sizes, but center it and add soft glow */
+.hero-center h1 {
+  margin: 0;
+  font-size: clamp(28px, 6vw, 52px);
+  letter-spacing: -0.02em;
+  color: #111;
+  text-shadow: 0 6px 30px rgba(214,179,255,0.12);
 }
 
-/* Utility classes to control the blob animations */
-.animate-blob {
-  animation: blob-animation 10s infinite ease-in-out;
+/* small helper: ensure text and buttons remain visible on smaller screens */
+@media (max-width: 640px) {
+  .hero-center { padding: 18px; gap: 14px; }
+  .hero-center h1 { font-size: clamp(24px, 7.5vw, 40px); }
+  .cute-btn { padding: 10px 18px; }
 }
 
-.animation-delay-2s {
-  animation-delay: 2s;
+/* Keep focus outlines visible */
+:focus {
+  outline-offset: 3px;
+  outline: 2px solid rgba(214,179,255,0.45);
+  outline-style: auto;
 }
 
-.animation-delay-4s {
-  animation-delay: 4s;
+/* Safety: ensure background never blocks clicks (extra) */
+.animated-bg,
+.animated-bg * {
+  pointer-events: none !important;
 }
 
 
