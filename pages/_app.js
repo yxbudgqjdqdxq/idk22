@@ -1,22 +1,11 @@
-// pages/_app.js
-import { useRouter } from 'next/router';
-import '../styles/globals.css';
-import AnimatedBackground from '../components/AnimatedBackground';
+import '@/styles/globals.css'
+import AnimatedBackground from '@/components/AnimatedBackground'
 
-export default function MyApp({ Component, pageProps }) {
-  const router = useRouter();
-
+export default function App({ Component, pageProps }) {
   return (
     <>
       <AnimatedBackground />
-
-      <div className="app-content">
-        <div key={router.asPath} className="page-wrapper">
-          <Component {...pageProps} />
-        </div>
-      </div>
+      <Component {...pageProps} />
     </>
-  );
+  )
 }
-
-
