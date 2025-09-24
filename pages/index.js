@@ -8,12 +8,11 @@ export default function Home() {
         <h1>I Missed You Bubu</h1>
 
         <div style={{ display: 'flex', gap: 14, alignItems: 'center', justifyContent: 'center', flexWrap: 'wrap' }}>
-          {/* keep existing logic for buttons — here we provide Link examples */}
           <Link href="/somepage" legacyBehavior>
-            <a className="cute-btn">Open</a>
+            <a className="cute-btn primary">Open</a>
           </Link>
 
-          <button className="cute-btn" type="button" onClick={() => alert('Button clicked')}>
+          <button className="cute-btn" type="button" onClick={() => alert('Clicked')}>
             Click me
           </button>
         </div>
