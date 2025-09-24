@@ -1,31 +1,27 @@
-import React from 'react';
-import { useRouter } from 'next/router';
 import '../styles/globals.css';
 import AnimatedBackground from '../components/AnimatedBackground';
-
+import { useRouter } from 'next/router';
 
 function MyApp({ Component, pageProps }) {
-const router = useRouter();
+  const router = useRouter();
 
+  return (
+    <div className="relative">
+      {/* The animated background is always rendered here, behind everything */}
+      <AnimatedBackground />
 
-return (
-<>
-{/* Background sits behind everything */}
-<AnimatedBackground />
-
-
-{/* app-content keeps layout and interactive elements above the background */}
-<div className="app-content">
-{/* Using router.asPath as key causes the inner content to remount on navigation,
-which triggers the CSS page animation below (fade + subtle slide). */}
-<div key={router.asPath} className="page-wrapper">
-<Component {...pageProps} />
-</div>
-</div>
-</>
-);
+      {/* This is the magic for page transitions.
+        The `key={router.pathname}` tells React to treat each page as a new
+        component. When you navigate, this component re-renders from scratch,
+        which re-triggers our `page-transition` CSS animation every time.
+        The `z-10` ensures your page content always appears above the background.
+      */}
+      <main key={router.pathname} className="page-transition relative z-10">
+        <Component {...pageProps} />
+      </main>
+    </div>
+  );
 }
-
 
 export default MyApp;
 
