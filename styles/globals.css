@@ -1,88 +1,81 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-/* 1. Defines the flowing gradient background animation */
-@keyframes gradient-animation {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
+/* ===== SUREHIT — animated background styles ===== */
+animation: move4 28s ease-in-out infinite;
 }
 
-/* 2. Defines the blob movement animation */
-@keyframes blob-animation {
-  0% {
-    transform: translate(0px, 0px) scale(1);
-  }
-  33% {
-    transform: translate(30px, -50px) scale(1.1);
-  }
-  66% {
-    transform: translate(-20px, 20px) scale(0.9);
-  }
-  100% {
-    transform: translate(0px, 0px) scale(1);
-  }
+
+/* subtle animations for the gradient */
+@keyframes gradientShift{
+0%{ background-position: 0% 50%; filter: blur(22px) saturate(1.0); }
+25%{ background-position: 50% 30%; filter: blur(26px) saturate(1.05); }
+50%{ background-position: 100% 50%; filter: blur(22px) saturate(1.08); }
+75%{ background-position: 50% 70%; filter: blur(26px) saturate(1.03); }
+100%{ background-position: 0% 50%; filter: blur(22px) saturate(1.0); }
 }
 
-/* 3. Defines the smooth page transition animation */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(15px); /* Start slightly lower */
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+
+/* paths for the blobs — long durations for slow, romantic motion */
+@keyframes move1{
+0%{ transform: translate(0,0) scale(1) rotate(0deg); }
+25%{ transform: translate(40px, -30px) scale(1.04) rotate(6deg); }
+50%{ transform: translate(0, -70px) scale(1) rotate(0deg); }
+75%{ transform: translate(-30px, -20px) scale(0.98) rotate(-5deg); }
+100%{ transform: translate(0,0) scale(1) rotate(0deg); }
 }
 
-/* Apply animations and base styles */
-html,
-body {
-  padding: 0;
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-  
-  /* Apply the animated gradient to the body */
-  background: linear-gradient(-45deg, #fbc2eb, #a6c1ee, #e0c3fc, #8ec5fc);
-  background-size: 400% 400%;
-  animation: gradient-animation 20s ease infinite;
-  color: #333; /* Default text color for better readability */
+
+@keyframes move2{
+0%{ transform: translate(0,0) scale(1) rotate(0deg); }
+25%{ transform: translate(-30px, 20px) scale(1.02) rotate(-4deg); }
+50%{ transform: translate(20px, 60px) scale(1) rotate(2deg); }
+75%{ transform: translate(30px, 10px) scale(0.98) rotate(3deg); }
+100%{ transform: translate(0,0) scale(1) rotate(0deg); }
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+
+@keyframes move3{
+0%{ transform: translate(0,0) scale(1) rotate(0deg); }
+30%{ transform: translate(16px, -40px) scale(1.03) rotate(6deg); }
+60%{ transform: translate(-28px, -20px) scale(1) rotate(-3deg); }
+100%{ transform: translate(0,0) scale(1) rotate(0deg); }
 }
 
-* {
-  box-sizing: border-box;
+
+@keyframes move4{
+0%{ transform: translate(0,0) scale(1) rotate(0deg); }
+25%{ transform: translate(8px, 40px) scale(1.02) rotate(3deg); }
+50%{ transform: translate(-16px, -30px) scale(1) rotate(-4deg); }
+100%{ transform: translate(0,0) scale(1) rotate(0deg); }
 }
 
-/* Utility class for the page transition */
-.page-transition {
-  animation: fadeIn 0.5s ease-out forwards;
+
+/* Keep the app content above the background */
+.app-content{
+position: relative;
+z-index: 1;
 }
 
-/* Utility classes for blob animation */
-.animate-blob {
-  animation: blob-animation 10s infinite ease-in-out;
+
+/* Page transition: subtle fade + upward slide on mount */
+.page-wrapper{
+will-change: opacity, transform;
+animation: pageFadeSlide 640ms cubic-bezier(.2,.85,.32,1) both;
 }
 
-.animation-delay-2s {
-  animation-delay: 2s;
+
+@keyframes pageFadeSlide{
+from{ opacity: 0; transform: translateY(10px); }
+to{ opacity: 1; transform: translateY(0); }
 }
 
-.animation-delay-4s {
-  animation-delay: 4s;
-}
+
+/* Safety: ensure interactive elements keep their natural z-order.
+Do not change any button/input styles here. */
+
+
+/* Small utility to make sure the background can't hide focus outlines on buttons */
+:focus{ outline-offset: 2px; }
+
+
+/* End of animated background styles */
 
 
