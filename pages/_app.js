@@ -6,8 +6,6 @@ import AnimatedBackground from '../components/AnimatedBackground';
 export default function MyApp({ Component, pageProps }) {
   const router = useRouter();
 
-  // Keep AnimatedBackground globally visible behind content.
-  // page-wrapper keyed by router.asPath to trigger the entry animation on navigation.
   return (
     <>
       <AnimatedBackground />
