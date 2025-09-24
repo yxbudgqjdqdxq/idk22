@@ -1,30 +1,31 @@
+import React from 'react';
+import { useRouter } from 'next/router';
 import '../styles/globals.css';
 import AnimatedBackground from '../components/AnimatedBackground';
-import { useRouter } from 'next/router';
+
 
 function MyApp({ Component, pageProps }) {
-  const router = useRouter();
+const router = useRouter();
 
-  return (
-    // This main div ensures content stays relative
-    <div className="relative">
-      {/* 1. The animated background is always rendered */}
-      <AnimatedBackground />
 
-      {/* 2. The 'key' is the most important part for page transitions.
-           When you navigate, the key changes (e.g., from '/' to '/about').
-           React sees a new key and re-renders the component, which
-           re-triggers our 'page-transition' CSS animation.
-      */}
-      <main
-        key={router.pathname}
-        className="page-transition relative z-10"
-      >
-        <Component {...pageProps} />
-      </main>
-    </div>
-  );
+return (
+<>
+{/* Background sits behind everything */}
+<AnimatedBackground />
+
+
+{/* app-content keeps layout and interactive elements above the background */}
+<div className="app-content">
+{/* Using router.asPath as key causes the inner content to remount on navigation,
+which triggers the CSS page animation below (fade + subtle slide). */}
+<div key={router.asPath} className="page-wrapper">
+<Component {...pageProps} />
+</div>
+</div>
+</>
+);
 }
+
 
 export default MyApp;
 
