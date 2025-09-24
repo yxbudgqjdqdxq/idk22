@@ -1,19 +1,12 @@
-/* styles/globals.css
-   Dreamy animated background + blob shapes + strong button selector coverage
-*/
-
-/* Theme variables */
 :root{
   --bg-blur: 68px;
   --blob-opacity: 0.66;
-  --accent-1: #ffd1ea; /* pastel pink */
-  --accent-2: #d6b3ff; /* pastel purple */
-  --accent-3: #ffe8f8; /* light rose */
+  --accent-1: #ffd1ea;
+  --accent-2: #d6b3ff;
+  --accent-3: #ffe8f8;
   --page-fade-duration: 640ms;
   --btn-text: #111;
 }
-
-/* Basic reset */
 html,body,#__next { height: 100%; }
 body {
   margin:0;
@@ -23,19 +16,15 @@ body {
   background: #fff;
   color: inherit;
 }
-
-/* ---------- BACKGROUND - fixed container ---------- */
 .animated-bg {
   position: fixed;
   inset: 0;
-  z-index: 0; /* behind app-content which will be z-index: 2 */
+  z-index: 0;
   overflow: hidden;
   pointer-events: none !important;
   -webkit-user-select: none;
   user-select: none;
 }
-
-/* Gradient overlay */
 .gradient-overlay {
   position: absolute;
   inset: -28%;
@@ -48,8 +37,6 @@ body {
   mix-blend-mode: screen;
   will-change: background-position, filter;
 }
-
-/* Blobs */
 .blob {
   position: absolute;
   border-radius: 50%;
@@ -59,8 +46,6 @@ body {
   transform-origin: center;
   will-change: transform, opacity;
 }
-
-/* Individual blobs */
 .blob-1{ width:600px;height:600px; left:-8%; top:-10%;
   background: radial-gradient(circle at 30% 30%, rgba(255,182,193,0.95), rgba(255,182,193,0.18) 42%, transparent 70%);
   animation: move1 30s ease-in-out infinite;
@@ -77,8 +62,6 @@ body {
   background: radial-gradient(circle at 60% 60%, rgba(255,196,230,0.9), rgba(199,21,133,0.16) 46%, transparent 75%);
   animation: move4 28s ease-in-out infinite;
 }
-
-/* keyframes */
 @keyframes gradientShift {
   0% { background-position: 0% 50%; filter: blur(26px) saturate(1); }
   33% { background-position: 50% 30%; filter: blur(30px) saturate(1.06); }
@@ -89,92 +72,31 @@ body {
 @keyframes move2{ 0%{transform:translate(0,0) scale(1)} 25%{transform:translate(-30px,30px) scale(1.02)} 50%{transform:translate(16px,66px) scale(1)} 75%{transform:translate(36px,10px) scale(.98)} 100%{transform:translate(0,0) scale(1)} }
 @keyframes move3{ 0%{transform:translate(0,0) scale(1)} 33%{transform:translate(18px,-44px) scale(1.03)} 66%{transform:translate(-28px,-22px) scale(1)} 100%{transform:translate(0,0) scale(1)} }
 @keyframes move4{ 0%{transform:translate(0,0) scale(1)} 25%{transform:translate(8px,40px) scale(1.02)} 50%{transform:translate(-16px,-30px) scale(1)} 100%{transform:translate(0,0) scale(1)} }
-
-/* ---------- Ensure app content sits above background ---------- */
 .app-content { position: relative; z-index: 2 !important; }
-
-/* Page transition wrapper */
 .page-wrapper {
   will-change: opacity, transform;
   animation: pageFadeSlide var(--page-fade-duration) cubic-bezier(.2,.85,.32,1) both;
 }
 @keyframes pageFadeSlide { from{opacity:0; transform:translateY(10px)} to{opacity:1; transform:translateY(0)} }
-
-/* ========================= Button styles (catch-all selectors) ========================= */
-/* We target common button classes and element types to ensure existing buttons become 'cute' without changing JS */
-button,
-button[type="button"],
-.btn,
-.btn-primary,
-.button,
-a.button,
-a.btn,
-a.cta,
-a.cute-btn,
-.cute-btn {
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  gap:10px;
-  padding: 12px 22px !important;
-  border-radius: 999px !important; /* capsule */
-  border: none !important;
-  font-weight:600;
-  cursor:pointer;
-  text-decoration:none !important;
-  color: var(--btn-text) !important;
+button,button[type="button"],.btn,.btn-primary,.button,a.button,a.btn,a.cta,a.cute-btn,.cute-btn {
+  display:inline-flex; align-items:center; justify-content:center; gap:10px;
+  padding: 12px 22px !important; border-radius: 999px !important; border: none !important;
+  font-weight:600; cursor:pointer; text-decoration:none !important; color: var(--btn-text) !important;
   background: linear-gradient(180deg, rgba(255,255,255,0.88), rgba(255,255,255,0.92)) !important;
   box-shadow: 0 10px 28px rgba(189,83,140,0.12) !important;
   transition: transform 160ms ease, box-shadow 160ms ease !important;
   backdrop-filter: blur(6px) saturate(1.03);
 }
-
-/* Colored accent for primary CTA variants (if your HTML uses .primary or .btn-primary) */
 .btn-primary, .primary, button.primary, a.primary {
   background: linear-gradient(90deg, rgba(214,179,255,1), rgba(255,182,193,1)) !important;
   color: #fff !important;
   box-shadow: 0 14px 36px rgba(214,179,255,0.18) !important;
 }
-
-/* Hover/active states */
 button:hover, .btn:hover, a:hover, .cute-btn:hover { transform: translateY(-3px) !important; }
 button:active, .btn:active, a:active { transform: translateY(0) !important; opacity: 0.96 !important; }
-
-/* Fallback: if a specific selector is used, add this class to target that specific node */
 .cute-btn { padding: 12px 22px !important; border-radius: 999px !important; }
-
-/* ========== Hero centering helper ========== */
-.hero-center {
-  min-height: calc(100vh - 0px);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  flex-direction:column;
-  text-align:center;
-  gap:18px;
-  padding:28px;
-  box-sizing:border-box;
-  z-index: 3;
-}
-.hero-center h1 {
-  margin:0;
-  font-size: clamp(28px, 6vw, 52px);
-  color: #111;
-  text-shadow: 0 6px 30px rgba(214,179,255,0.12);
-}
-
-/* mobile tweaks */
-@media (max-width:640px) {
-  .hero-center { padding:18px; gap:14px; }
-  .hero-center h1 { font-size: clamp(24px, 7.5vw, 40px); }
-}
-
-/* Focus styles */
+.hero-center { min-height: calc(100vh - 0px); display:flex; align-items:center; justify-content:center; flex-direction:column; text-align:center; gap:18px; padding:28px; box-sizing:border-box; z-index: 3; }
+.hero-center h1 { margin:0; font-size: clamp(28px, 6vw, 52px); color: #111; text-shadow: 0 6px 30px rgba(214,179,255,0.12); }
+@media (max-width:640px) { .hero-center { padding:18px; gap:14px; } .hero-center h1 { font-size: clamp(24px, 7.5vw, 40px); } }
 :focus { outline-offset: 3px; outline: 2px solid rgba(214,179,255,0.45); }
-
-/* Make absolutely sure animated-bg never blocks interaction */
 .animated-bg, .animated-bg * { pointer-events: none !important; user-select: none; }
-
-
-
-
