@@ -1,26 +1,23 @@
-
-import { useState } from 'react'
-import Link from 'next/link'
+// pages/index.js
+import Link from 'next/link';
 
 export default function Home() {
-  const [entered, setEntered] = useState(false)
-
   return (
-    <main className="main-container">
-      {!entered ? (
-        <button className="landing-btn" onClick={() => setEntered(true)}>
-          I Missed You Bubu
-        </button>
-      ) : (
-        <div className="choices">
-          <Link href="/paragraphs" legacyBehavior>
-            <a className="choice-btn">Feeling Moody Today?</a>
+    <main>
+      <section className="hero-center">
+        <h1>I Missed You Bubu</h1>
+
+        <div style={{ display: 'flex', gap: 14, alignItems: 'center', justifyContent: 'center', flexWrap: 'wrap' }}>
+          {/* keep existing logic for buttons — here we provide Link examples */}
+          <Link href="/somepage" legacyBehavior>
+            <a className="cute-btn">Open</a>
           </Link>
-          <Link href="/chat" legacyBehavior>
-            <a className="choice-btn">Daily Affirmations</a>
-          </Link>
+
+          <button className="cute-btn" type="button" onClick={() => alert('Button clicked')}>
+            Click me
+          </button>
         </div>
-      )}
+      </section>
     </main>
-  )
+  );
 }
